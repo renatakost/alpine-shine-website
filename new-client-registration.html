@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="en-NZ">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="robots" content="noindex, nofollow" />
+    <title>New Client Registration | Alpine Shine</title>
+    <meta
+      name="description"
+      content="New client registration for Alpine Shine in Wānaka."
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600&family=Outfit:wght@400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="css/styles.css?v=56" />
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Skip to content</a>
+
+    <header class="site-header home-header">
+      <div class="header-inner">
+        <a class="logo" href="index.html"><img src="images/alpine-shine-logo-header.png" alt="Alpine Shine" /></a>
+
+        <button
+          class="nav-toggle"
+          type="button"
+          aria-expanded="false"
+          aria-controls="site-nav"
+        >
+          <span class="nav-toggle-bars" aria-hidden="true"></span>
+          <span class="visually-hidden">Menu</span>
+        </button>
+
+        <nav id="site-nav" class="site-nav" aria-label="Primary">
+          <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="index.html#services">Services</a></li>
+            <li><a href="about.html">About</a></li>
+            <li><a href="portfolio.html">Portfolio</a></li>
+            <li><a href="index.html#quote">Contact</a></li>
+            <li><a href="work-with-us.html">Work With Us</a></li>
+            <li class="nav-whatsapp">
+              <a
+                class="header-contact"
+                href="index.html#contact-details"
+                aria-label="Get in touch with Alpine Shine"
+              >
+                <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                  <path
+                    fill="currentColor"
+                    d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4-8 5-8-5V6l8 5 8-5v2z"
+                  />
+                </svg>
+                Get in Touch
+              </a>
+            </li>
+          </ul>
+        </nav>
+
+        <div class="header-actions">
+          <a
+            class="header-contact"
+            href="index.html#contact-details"
+            aria-label="Get in touch with Alpine Shine"
+          >
+            <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+              <path
+                fill="currentColor"
+                d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4-8 5-8-5V6l8 5 8-5v2z"
+              />
+            </svg>
+            Get in Touch
+          </a>
+          <a class="btn btn-primary header-cta" href="index.html#quote">Request a Quote</a>
+        </div>
+      </div>
+    </header>
+
+    <main id="main">
+      <section class="section registration-page" aria-labelledby="registration-heading">
+        <h1 id="registration-heading">New Client Registration</h1>
+        <div class="form-intro-block">
+          <p>
+            Please complete the details below so we can set up your property and
+            provide the best possible service.
+          </p>
+          <p class="form-time-note">This takes around 3 to 5 minutes.</p>
+        </div>
+
+        <form class="registration-form client-registration-form" action="#" method="post">
+          <fieldset>
+            <legend>Your Details</legend>
+            <label>
+              Full Name
+              <input type="text" name="full-name" autocomplete="name" required />
+            </label>
+            <div class="form-row">
+              <label>
+                Email
+                <input type="email" name="email" autocomplete="email" required />
+              </label>
+              <label>
+                Phone
+                <input type="tel" name="phone" autocomplete="tel" required />
+              </label>
+            </div>
+          </fieldset>
+
+          <fieldset>
+            <legend>Property Details</legend>
+            <label>
+              Property Address
+              <input
+                type="text"
+                name="property-address"
+                autocomplete="street-address"
+                required
+              />
+            </label>
+            <label>
+              Property Type
+              <select name="property-type" required>
+                <option value="">Please select</option>
+                <option value="house">House</option>
+                <option value="apartment-unit">Apartment / Unit</option>
+                <option value="holiday-home-airbnb">Holiday Home / Airbnb</option>
+                <option value="new-build-renovation">New Build / Renovation</option>
+                <option value="other">Other</option>
+              </select>
+            </label>
+            <label data-when-name="property-type" data-when-value="other" hidden>
+              Please tell us what type of property it is.
+              <input type="text" name="property-type-details" />
+            </label>
+            <div class="form-row">
+              <label>
+                Number of Bedrooms
+                <input type="number" name="bedrooms" min="0" step="1" inputmode="numeric" />
+              </label>
+              <label>
+                Number of Bathrooms
+                <input type="number" name="bathrooms" min="0" step="1" inputmode="numeric" />
+              </label>
+            </div>
+            <label>
+              Which Alpine Shine service do you need?
+              <select name="service-required" required>
+                <option value="">Please select</option>
+                <option value="airbnb-turnovers">Airbnb Turnovers</option>
+                <option value="boutique-airbnb-management">Boutique Airbnb Management</option>
+                <option value="residential-cleaning">Residential Cleaning</option>
+                <option value="end-of-tenancy">Move In &amp; Move Out Cleaning</option>
+                <option value="new-build-cleaning">New Build Cleaning</option>
+                <option value="linen-hire">Linen Hire</option>
+                <option value="other-not-sure">Other / Not Sure</option>
+              </select>
+            </label>
+            <label data-when-name="service-required" data-when-value="other-not-sure" hidden>
+              Tell us briefly what you need help with.
+              <textarea name="service-details" rows="3"></textarea>
+            </label>
+            <div class="conditional-fields" data-when-name="service-required" data-when-value="residential-cleaning" hidden>
+              <label>
+                How often would you like the cleaning?
+                <select name="cleaning-frequency">
+                  <option value="">Please select</option>
+                  <option value="weekly">Weekly</option>
+                  <option value="fortnightly">Fortnightly</option>
+                  <option value="one-off">One-off</option>
+                  <option value="other">Other</option>
+                </select>
+              </label>
+              <label data-when-name="cleaning-frequency" data-when-value="other" hidden>
+                Please tell us what frequency you are looking for.
+                <input type="text" name="frequency-details" />
+              </label>
+            </div>
+          </fieldset>
+
+          <fieldset>
+            <legend>Property Access</legend>
+            <label>
+              Property Access Details
+              <span class="field-hint">How should Alpine Shine access the property?</span>
+              <textarea name="property-access" rows="3"></textarea>
+            </label>
+            <label>
+              Parking Instructions
+              <textarea name="parking-instructions" rows="3"></textarea>
+            </label>
+            <label>
+              Lockbox Code
+              <span class="field-hint">Optional. Add this if you use a lockbox or door code.</span>
+              <input type="text" name="lockbox-code" autocomplete="off" />
+            </label>
+          </fieldset>
+
+          <fieldset>
+            <legend>Billing Details</legend>
+            <label>
+              Billing / Invoice Details
+              <span class="field-hint">Who should we address invoices to?</span>
+              <textarea name="billing-details" rows="4" required></textarea>
+            </label>
+          </fieldset>
+
+          <fieldset>
+            <legend>Additional Information</legend>
+            <label>
+              Special Requests / Property Notes
+              <span class="field-hint">Anything important we should know about the property or the clean.</span>
+              <textarea name="property-notes" rows="5"></textarea>
+            </label>
+            <label>
+              How did you hear about Alpine Shine?
+              <select name="referral-source">
+                <option value="">Please select</option>
+                <option value="google">Google</option>
+                <option value="facebook-instagram">Facebook / Instagram</option>
+                <option value="referral-friend">Referral / Friend</option>
+                <option value="property-manager-agency">Property Manager / Agency</option>
+                <option value="existing-client">Existing Client</option>
+                <option value="other">Other</option>
+              </select>
+            </label>
+            <label data-when-name="referral-source" data-when-value="referral-friend" hidden>
+              Who referred you?
+              <span class="field-hint">Optional</span>
+              <input type="text" name="referral-name" />
+            </label>
+            <label data-when-name="referral-source" data-when-value="other" hidden>
+              Please tell us where you heard about Alpine Shine.
+              <span class="field-hint">Optional</span>
+              <input type="text" name="referral-source-details" />
+            </label>
+          </fieldset>
+
+          <fieldset>
+            <legend>Permissions</legend>
+            <p class="field-hint">These are optional.</p>
+            <label class="check-field">
+              <input type="checkbox" name="marketing-consent" value="yes" />
+              <span>I agree to receive marketing emails from Alpine Shine.</span>
+            </label>
+            <label class="check-field">
+              <input type="checkbox" name="photo-permission" value="yes" />
+              <span>I give permission for Alpine Shine to photograph the property for social media.</span>
+            </label>
+          </fieldset>
+
+          <button class="btn btn-primary" type="submit">Submit Registration</button>
+          <p class="form-status" hidden></p>
+        </form>
+
+        <div class="registration-success" hidden tabindex="-1">
+          <p class="registration-success-title">Thank you! Your registration has been received.</p>
+          <p>We’ll be in touch if we need any further information.</p>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <div class="footer-inner">
+        <div class="footer-brand">
+          <img class="footer-logo" src="images/alpine-shine-logo-footer.png" alt="Alpine Shine" />
+        </div>
+        <div class="footer-col">
+          <h3>Contact</h3>
+          <div class="footer-contact">
+            <p>
+              Renata Kost<br />
+              <a
+                class="footer-contact-link footer-contact-link--whatsapp"
+                href="https://wa.me/64275431134?text=Hi%2C%20I%27d%20like%20to%20enquire%20about%20cleaning%20services%20with%20Alpine%20Shine."
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Chat with Renata Kost on WhatsApp"
+              >
+                <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                  <path
+                    fill="currentColor"
+                    d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.435 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"
+                  />
+                </svg>
+                +64 27 543 1134
+              </a>
+            </p>
+            <p>
+              Karen Melville Ives<br />
+              <a
+                class="footer-contact-link footer-contact-link--whatsapp"
+                href="https://wa.me/64274436533?text=Hi%2C%20I%27d%20like%20to%20enquire%20about%20cleaning%20services%20with%20Alpine%20Shine."
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Chat with Karen Melville Ives on WhatsApp"
+              >
+                <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                  <path
+                    fill="currentColor"
+                    d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.435 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"
+                  />
+                </svg>
+                +64 27 443 6533
+              </a>
+            </p>
+            <p>
+              <a class="footer-contact-link" href="mailto:info@alpineshine.nz">
+                <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                  <path
+                    fill="currentColor"
+                    d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4-8 5-8-5V6l8 5 8-5v2z"
+                  />
+                </svg>
+                info@alpineshine.nz
+              </a>
+            </p>
+          </div>
+        </div>
+        <div class="footer-col">
+          <h3>Quick Links</h3>
+          <ul class="footer-links">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="index.html#services">Services</a></li>
+            <li><a href="about.html">About</a></li>
+            <li><a href="portfolio.html">Portfolio</a></li>
+            <li><a href="index.html#quote">Contact</a></li>
+            <li><a href="work-with-us.html">Work With Us</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bar">
+        <p>© 2026 Alpine Shine Cleaning Services · Wānaka, New Zealand</p>
+      </div>
+    </footer>
+
+    <script src="js/main.js?v=53"></script>
+  </body>
+</html>
