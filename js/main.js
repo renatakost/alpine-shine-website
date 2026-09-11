@@ -94,16 +94,16 @@ document.querySelectorAll("[data-reviews-carousel]").forEach((root) => {
   const nextBtn = root.querySelector(".reviews-arrow--next");
   const dotsWrap = root.querySelector(".reviews-dots");
   const viewport = root.querySelector(".reviews-viewport");
-  if (!slides.length || !dotsWrap || !viewport) {
+  const track = root.querySelector(".reviews-track");
+  const modal = document.querySelector("[data-review-modal]");
+  if (!slides.length || !dotsWrap || !viewport || !track) {
     return;
   }
 
-  const intervalMs = 9000;
+  const desktopQuery = window.matchMedia("(min-width: 801px)");
+  const pageSize = () => (desktopQuery.matches ? 3 : 1);
   let index = 0;
-  let timer = null;
-  let pointerInside = false;
-  let keyboardFocus = false;
-  let lastInputWasKeyboard = false;
+  let lastFocus = null;
 
   slides.forEach((slide, i) => {
     slide.id = `review-slide-${i + 1}`;
@@ -119,149 +119,154 @@ document.querySelectorAll("[data-reviews-carousel]").forEach((root) => {
 
   const dots = [...dotsWrap.querySelectorAll(".reviews-dot")];
 
-  function setViewportHeight() {
-    viewport.style.height = "auto";
-    viewport.style.minHeight = "0px";
-    let tallest = 0;
-    slides.forEach((slide) => {
-      const card = slide.querySelector(".review-card");
-      const wasActive = slide.classList.contains("is-active");
-      slide.classList.add("is-active");
-      slide.style.position = "relative";
-      slide.style.opacity = "1";
-      slide.style.transform = "none";
-      slide.style.height = "auto";
-      if (card) {
-        card.style.height = "auto";
-        card.style.minHeight = "0";
-      }
-      tallest = Math.max(tallest, slide.offsetHeight);
-      if (!wasActive) {
-        slide.classList.remove("is-active");
-      }
-      slide.style.position = "";
-      slide.style.opacity = "";
-      slide.style.transform = "";
-      slide.style.height = "";
-      if (card) {
-        card.style.height = "";
-        card.style.minHeight = "";
-      }
-    });
-    if (tallest) {
-      viewport.style.height = `${tallest}px`;
-      viewport.style.minHeight = `${tallest}px`;
-    }
+  function maxIndex() {
+    return Math.max(0, slides.length - pageSize());
   }
 
-  function render() {
-    slides.forEach((slide, i) => {
-      const active = i === index;
-      slide.classList.toggle("is-active", active);
-      slide.setAttribute("aria-hidden", active ? "false" : "true");
-    });
+  function gapSize() {
+    return parseFloat(getComputedStyle(track).gap) || 0;
+  }
+
+  function applyDesktopTransform() {
+    const slideWidth = slides[0].getBoundingClientRect().width;
+    const offset = index * (slideWidth + gapSize());
+    track.style.transform = `translateX(-${offset}px)`;
+  }
+
+  function syncDots() {
     dots.forEach((dot, i) => {
       const active = i === index;
       dot.classList.toggle("is-active", active);
       dot.setAttribute("aria-selected", String(active));
       dot.tabIndex = active ? 0 : -1;
     });
-    root.dataset.activeIndex = String(index);
-  }
-
-  function stopAutoplay() {
-    if (timer) {
-      window.clearInterval(timer);
-      timer = null;
+    if (prevBtn) {
+      prevBtn.disabled = desktopQuery.matches && index <= 0;
     }
-  }
-
-  function shouldPause() {
-    return pointerInside || keyboardFocus;
-  }
-
-  function startAutoplay() {
-    stopAutoplay();
-    if (shouldPause()) {
-      return;
+    if (nextBtn) {
+      nextBtn.disabled = desktopQuery.matches && index >= maxIndex();
     }
-    timer = window.setInterval(() => {
-      goTo(index + 1, false);
-    }, intervalMs);
   }
 
   function goTo(next, userInitiated) {
-    index = (next + slides.length) % slides.length;
-    render();
-    if (userInitiated) {
-      startAutoplay();
+    index = Math.max(0, Math.min(maxIndex(), next));
+    if (desktopQuery.matches) {
+      applyDesktopTransform();
+    } else if (userInitiated) {
+      slides[index].scrollIntoView({ behavior: "smooth", inline: "start", block: "nearest" });
+    }
+    syncDots();
+  }
+
+  function syncFromScroll() {
+    if (desktopQuery.matches) {
+      return;
+    }
+    const left = viewport.scrollLeft;
+    let nearest = 0;
+    let nearestDist = Infinity;
+    slides.forEach((slide, i) => {
+      const dist = Math.abs(slide.offsetLeft - left);
+      if (dist < nearestDist) {
+        nearestDist = dist;
+        nearest = i;
+      }
+    });
+    if (nearest !== index) {
+      index = nearest;
+      syncDots();
     }
   }
 
-  document.addEventListener("keydown", (event) => {
-    if (event.key === "Tab" || event.key === "ArrowLeft" || event.key === "ArrowRight") {
-      lastInputWasKeyboard = true;
-    }
-  }, true);
-  document.addEventListener("pointerdown", () => {
-    lastInputWasKeyboard = false;
-  }, true);
-
-  prevBtn?.addEventListener("click", () => goTo(index - 1, true));
-  nextBtn?.addEventListener("click", () => goTo(index + 1, true));
-
-  root.addEventListener("pointerenter", () => {
-    pointerInside = true;
-    stopAutoplay();
-  });
-  root.addEventListener("pointerleave", () => {
-    pointerInside = false;
-    startAutoplay();
-  });
-  root.addEventListener("focusin", () => {
-    if (lastInputWasKeyboard) {
-      keyboardFocus = true;
-      stopAutoplay();
-    }
-  });
-  root.addEventListener("focusout", (event) => {
-    if (!root.contains(event.relatedTarget)) {
-      keyboardFocus = false;
-      startAutoplay();
-    }
-  });
-
-  let touchStartX = null;
-  viewport.addEventListener("touchstart", (event) => {
-    touchStartX = event.changedTouches[0].clientX;
-  }, { passive: true });
-  viewport.addEventListener("touchend", (event) => {
-    if (touchStartX === null) {
-      return;
-    }
-    const delta = event.changedTouches[0].clientX - touchStartX;
-    touchStartX = null;
-    if (Math.abs(delta) < 40) {
-      return;
-    }
-    goTo(index + (delta < 0 ? 1 : -1), true);
-  }, { passive: true });
+  prevBtn?.addEventListener("click", () => goTo(index - pageSize(), true));
+  nextBtn?.addEventListener("click", () => goTo(index + pageSize(), true));
+  viewport.addEventListener("scroll", syncFromScroll, { passive: true });
 
   root.addEventListener("keydown", (event) => {
     if (event.key === "ArrowLeft") {
       event.preventDefault();
-      goTo(index - 1, true);
+      goTo(index - pageSize(), true);
     }
     if (event.key === "ArrowRight") {
       event.preventDefault();
-      goTo(index + 1, true);
+      goTo(index + pageSize(), true);
     }
   });
 
-  render();
-  setViewportHeight();
-  window.addEventListener("resize", setViewportHeight);
-  startAutoplay();
+  function onModeChange() {
+    index = Math.min(index, maxIndex());
+    if (desktopQuery.matches) {
+      viewport.scrollLeft = 0;
+      applyDesktopTransform();
+    } else {
+      track.style.transform = "none";
+      slides[index].scrollIntoView({ behavior: "auto", inline: "start", block: "nearest" });
+    }
+    syncDots();
+  }
+
+  desktopQuery.addEventListener("change", onModeChange);
+  window.addEventListener("resize", () => {
+    if (desktopQuery.matches) {
+      applyDesktopTransform();
+    }
+  });
+
+  function closeModal() {
+    if (!modal || !modal.classList.contains("is-open")) {
+      return;
+    }
+    modal.classList.remove("is-open");
+    modal.setAttribute("aria-hidden", "true");
+    document.body.classList.remove("review-modal-open");
+    if (lastFocus && typeof lastFocus.focus === "function") {
+      lastFocus.focus();
+    }
+  }
+
+  function openModal(card) {
+    if (!modal) {
+      return;
+    }
+    const name = modal.querySelector("#review-modal-name");
+    const quote = modal.querySelector(".review-modal-quote");
+    const source = card.querySelector("blockquote");
+    lastFocus = document.activeElement;
+    if (name) {
+      name.textContent = card.querySelector(".review-name")?.textContent || "";
+    }
+    if (quote && source) {
+      quote.innerHTML = source.innerHTML;
+    }
+    modal.setAttribute("aria-hidden", "false");
+    document.body.classList.add("review-modal-open");
+    modal.classList.add("is-open");
+    modal.querySelector(".review-modal-dialog")?.focus();
+  }
+
+  document.addEventListener("click", (event) => {
+    const closer = event.target.closest("[data-review-modal-close]");
+    if (closer && modal.contains(closer)) {
+      closeModal();
+      return;
+    }
+    const btn = event.target.closest(".review-more");
+    if (!btn || !root.contains(btn)) {
+      return;
+    }
+    const card = btn.closest(".review-card");
+    if (card) {
+      openModal(card);
+    }
+  });
+
+  document.addEventListener("keydown", (event) => {
+    if (event.key === "Escape") {
+      closeModal();
+    }
+  });
+
+  onModeChange();
 });
 
 document.querySelectorAll(".multi-step-form").forEach(initMultiStepForm);
@@ -276,9 +281,10 @@ function initConditionalFields(form) {
     groups.forEach((el) => {
       const control = form.elements.namedItem(el.dataset.whenName);
       const ancestor = el.parentElement && el.parentElement.closest("[data-when-name]");
+      const allowed = (el.dataset.whenValue || "").trim().split(/\s+/);
       const match = Boolean(
         control &&
-        control.value === el.dataset.whenValue &&
+        allowed.includes(control.value) &&
         !(ancestor && ancestor.hidden)
       );
       el.hidden = !match;

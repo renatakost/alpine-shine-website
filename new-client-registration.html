@@ -15,7 +15,7 @@
       href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600&family=Outfit:wght@400;500;600&display=swap"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="css/styles.css?v=56" />
+    <link rel="stylesheet" href="css/styles.css?v=64" />
   </head>
   <body>
     <a class="skip-link" href="#main">Skip to content</a>
@@ -154,13 +154,20 @@
                 <option value="residential-cleaning">Residential Cleaning</option>
                 <option value="end-of-tenancy">Move In &amp; Move Out Cleaning</option>
                 <option value="new-build-cleaning">New Build Cleaning</option>
-                <option value="linen-hire">Linen Hire</option>
                 <option value="other-not-sure">Other / Not Sure</option>
               </select>
             </label>
             <label data-when-name="service-required" data-when-value="other-not-sure" hidden>
               Tell us briefly what you need help with.
               <textarea name="service-details" rows="3"></textarea>
+            </label>
+            <label data-when-name="service-required" data-when-value="airbnb-turnovers boutique-airbnb-management" hidden>
+              Do you need linen hire?
+              <select name="linen-hire">
+                <option value="">Please select</option>
+                <option value="yes">Yes</option>
+                <option value="no">No</option>
+              </select>
             </label>
             <div class="conditional-fields" data-when-name="service-required" data-when-value="residential-cleaning" hidden>
               <label>
@@ -230,6 +237,11 @@
               Who referred you?
               <span class="field-hint">Optional</span>
               <input type="text" name="referral-name" />
+            </label>
+            <label data-when-name="referral-source" data-when-value="property-manager-agency" hidden>
+              Property manager or agency name
+              <span class="field-hint">Optional</span>
+              <input type="text" name="referral-agency-name" />
             </label>
             <label data-when-name="referral-source" data-when-value="other" hidden>
               Please tell us where you heard about Alpine Shine.
@@ -336,6 +348,6 @@
       </div>
     </footer>
 
-    <script src="js/main.js?v=53"></script>
+    <script src="js/main.js?v=65"></script>
   </body>
 </html>
