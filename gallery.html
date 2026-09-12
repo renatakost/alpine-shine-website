@@ -3,10 +3,10 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>About Us | Alpine Shine</title>
+    <title>Gallery | Alpine Shine</title>
     <meta
       name="description"
-      content="Meet Renata Kost and Karen Melville Ives, the people behind Alpine Shine in Wānaka."
+      content="A look at Alpine Shine’s cleaning and property care work in Wānaka, organised by service."
     />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -14,7 +14,7 @@
       href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600&family=Outfit:wght@400;500;600&display=swap"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="css/styles.css?v=69" />
+    <link rel="stylesheet" href="css/styles.css?v=70" />
   </head>
   <body>
     <a class="skip-link" href="#main">Skip to content</a>
@@ -37,8 +37,8 @@
           <ul>
             <li><a href="index.html">Home</a></li>
             <li><a href="index.html#services">Services</a></li>
-            <li><a href="about.html" aria-current="page">About</a></li>
-            <li><a href="gallery.html">Gallery</a></li>
+            <li><a href="about.html">About</a></li>
+            <li><a href="gallery.html" aria-current="page">Gallery</a></li>
             <li><a href="index.html#quote">Contact</a></li>
             <li><a href="work-with-us.html">Work With Us</a></li>
             <li class="nav-whatsapp">
@@ -79,61 +79,71 @@
     </header>
 
     <main id="main">
-      <article class="about-page">
-        <h1 id="about-heading">Meet Renata &amp; Karen</h1>
-        <p>
-          Alpine Shine was started by Renata Kost and Karen Melville Ives with a simple idea: to offer reliable, high-quality cleaning and property care with a more personal approach.
-        </p>
-        <p>
-          Over the years, the business has grown naturally. What started with cleaning has become much more than that, and today we work closely with homeowners, Airbnb hosts and property managers across Wānaka and the surrounding areas.
-        </p>
+      <article class="gallery-page portfolio-page">
+        <h1 id="gallery-heading">Gallery</h1>
+        <div class="gallery-intro portfolio-intro">
+          <p>A look at some of the properties we've cleaned and cared for around Wānaka.</p>
+          <p>
+            Photos are grouped by service so you can see the kind of work we do, without scrolling through one long mix of images.
+          </p>
+        </div>
 
-        <section class="about-profile" aria-labelledby="renata-heading">
-          <div>
-            <h2 id="renata-heading">Renata Kost</h2>
-            <p>
-              Originally from Brazil, Renata has more than five years of hands-on experience working in homes and properties in New Zealand, with a background in both professional painting and cleaning.
-            </p>
-            <p>
-              As Alpine Shine has grown, so has her role. Today, Renata is involved in everything from Airbnb turnovers and property presentation to quality control, client communication and the day-to-day care of holiday homes.
-            </p>
-            <p>
-              Working inside properties every day has taught her that a home being clean is only part of the job. The little details matter too. How a property is presented, how it feels when a guest walks in, and whether the owner can trust that everything has been taken care of properly.
-            </p>
-          </div>
-          <figure class="about-photo about-photo--renata">
-            <img src="images/renata.jpg" alt="Renata Kost" width="819" height="1024" />
-          </figure>
+        <!--
+          How to add a photo later:
+          Copy a <li class="work-photo"> block into the matching category <ul class="gallery-grid">.
+          Use images/... as the src and a short, factual alt description.
+        -->
+
+        <section class="gallery-category" aria-labelledby="gallery-airbnb-heading">
+          <h2 id="gallery-airbnb-heading">Airbnb Turnovers</h2>
+          <ul class="work-grid gallery-grid">
+            <!-- Add photos here -->
+          </ul>
         </section>
 
-        <section class="about-profile" aria-labelledby="karen-heading">
-          <div>
-            <h2 id="karen-heading">Karen Melville Ives</h2>
-            <p>
-              Karen is a Wānaka local with experience in property management, hospitality and marketing. She also understands the Airbnb world first-hand from running her own property.
-            </p>
-            <p>
-              She brings a strong understanding of what owners need behind the scenes, as well as what guests notice during their stay. Organisation, communication and keeping things running smoothly are a big part of what she brings to Alpine Shine.
-            </p>
-          </div>
-          <figure class="about-photo about-photo--karen">
-            <img
-              src="images/karen.jpg?v=67"
-              alt="Karen Melville Ives, Co-owner of Alpine Shine Cleaning Services"
-              width="819"
-              height="1024"
-            />
-          </figure>
+        <section class="gallery-category" aria-labelledby="gallery-deep-heading">
+          <h2 id="gallery-deep-heading">Deep Cleaning</h2>
+          <ul class="work-grid gallery-grid">
+            <!-- Add photos here -->
+          </ul>
         </section>
 
-        <section class="about-together" aria-labelledby="together-heading">
-          <h2 id="together-heading">Better Together</h2>
-          <p>
-            Renata and Karen bring different strengths to the business, but they share the same standards: good communication, attention to detail, reliable systems and genuine care for the properties they look after.
-          </p>
-          <p>
-            Whether it is preparing an Airbnb for the next guests, looking after a residential home or helping manage a holiday property, the goal is simple: make things easier for the owner and make sure the property is looked after properly.
-          </p>
+        <section class="gallery-category" aria-labelledby="gallery-residential-heading">
+          <h2 id="gallery-residential-heading">Residential Cleaning</h2>
+          <ul class="work-grid gallery-grid">
+            <!-- Add photos here -->
+          </ul>
+        </section>
+
+        <section class="gallery-category" aria-labelledby="gallery-tenancy-heading">
+          <h2 id="gallery-tenancy-heading">End of Tenancy / New Build</h2>
+          <ul class="work-grid gallery-grid">
+            <li class="work-photo work-photo--bathroom">
+              <img
+                src="images/our-work-bathroom.jpg"
+                alt="A clean bathroom prepared by Alpine Shine"
+              />
+            </li>
+            <li class="work-photo work-photo--kitchen">
+              <img
+                src="images/our-work-kitchen.jpg"
+                alt="A clean kitchen prepared by Alpine Shine"
+              />
+            </li>
+            <li class="work-photo work-photo--island">
+              <img
+                src="images/our-work-kitchen-island.jpg"
+                alt="A clean kitchen island prepared by Alpine Shine"
+              />
+            </li>
+          </ul>
+        </section>
+
+        <section class="gallery-category" aria-labelledby="gallery-before-after-heading">
+          <h2 id="gallery-before-after-heading">Before &amp; After</h2>
+          <ul class="work-grid gallery-grid">
+            <!-- Add photos here as consecutive before/after images -->
+          </ul>
         </section>
       </article>
     </main>
