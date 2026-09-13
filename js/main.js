@@ -405,12 +405,7 @@ document.querySelectorAll(".quote-form, .registration-form").forEach((form) => {
     }
 
     if (form.classList.contains("client-registration-form")) {
-      form.hidden = true;
-      const success = form.parentElement.querySelector(".registration-success");
-      if (success) {
-        success.hidden = false;
-        success.focus();
-      }
+      sendRegistrationRequest(form, formStatus);
       return;
     }
 
