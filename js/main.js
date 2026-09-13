@@ -308,6 +308,71 @@ function initConditionalFields(form) {
 
 document.querySelectorAll(".application-form, .client-registration-form").forEach(initConditionalFields);
 
+function quoteEndpoint() {
+  const config = window.ALPINE_SHINE_CONFIG || {};
+  if (config.quoteSubmissionsEnabled !== true) return "";
+  if (config.submitQuoteUrl) {
+    return config.submitQuoteUrl;
+  }
+  if (config.firebaseProjectId) {
+    return `https://australia-southeast1-${config.firebaseProjectId}.cloudfunctions.net/submitQuote`;
+  }
+  return "";
+}
+
+async function sendQuoteRequest(form, formStatus) {
+  const endpoint = quoteEndpoint();
+  const submitBtn = form.querySelector('button[type="submit"]');
+  if (submitBtn?.disabled) return;
+
+  if (!endpoint) {
+    formStatus.hidden = false;
+    formStatus.textContent =
+      "Quote submissions are not connected yet. Please contact Alpine Shine directly.";
+    return;
+  }
+
+  const payload = {
+    fullName: form.elements.namedItem("full-name")?.value || "",
+    email: form.elements.namedItem("email")?.value || "",
+    phone: form.elements.namedItem("phone")?.value || "",
+    propertyAddress: form.elements.namedItem("property-address")?.value || "",
+    service: form.elements.namedItem("service")?.value || "",
+    message: form.elements.namedItem("message")?.value || "",
+  };
+
+  if (submitBtn) {
+    submitBtn.disabled = true;
+  }
+  formStatus.hidden = false;
+  formStatus.textContent = "Sending your quote request…";
+
+  try {
+    const response = await fetch(endpoint, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(payload),
+    });
+    const data = await response.json().catch(() => ({}));
+    if (response.status !== 200 || data.ok !== true) {
+      formStatus.textContent =
+        data.error ||
+        "Something went wrong. Please try again or contact Alpine Shine directly.";
+      return;
+    }
+    form.reset();
+    formStatus.textContent =
+      "Thank you. Your quote request has been received. We’ll be in touch soon.";
+  } catch (error) {
+    formStatus.textContent =
+      "Something went wrong. Please try again or contact Alpine Shine directly.";
+  } finally {
+    if (submitBtn) {
+      submitBtn.disabled = false;
+    }
+  }
+}
+
 document.querySelectorAll(".quote-form, .registration-form").forEach((form) => {
   if (form.classList.contains("multi-step-form")) {
     return;
@@ -349,7 +414,6 @@ document.querySelectorAll(".quote-form, .registration-form").forEach((form) => {
       return;
     }
 
-    formStatus.textContent =
-      "This quote form is not sending yet. We will connect it in a later step.";
+    sendQuoteRequest(form, formStatus);
   });
 });

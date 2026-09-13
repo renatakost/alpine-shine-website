@@ -311,23 +311,23 @@ I highly recommend Alpine Shine, and Renata in particular is absolutely wonderfu
           <div class="form-row">
             <label>
               Full Name
-              <input type="text" name="full-name" autocomplete="name" required />
+              <input type="text" name="full-name" maxlength="100" autocomplete="name" required />
             </label>
             <label>
               Email
-              <input type="email" name="email" autocomplete="email" required />
+              <input type="email" name="email" maxlength="120" autocomplete="email" required />
             </label>
           </div>
           <div class="form-row">
             <label>
               Phone
-              <input type="tel" name="phone" autocomplete="tel" required />
+              <input type="tel" name="phone" maxlength="40" autocomplete="tel" required />
             </label>
             <label>
               Property Address
               <input
                 type="text"
-                name="property-address"
+                name="property-address" maxlength="200"
                 autocomplete="street-address"
                 required
               />
@@ -346,10 +346,10 @@ I highly recommend Alpine Shine, and Renata in particular is absolutely wonderfu
           </label>
           <label>
             Message / Tell us about your property
-            <textarea name="message" rows="3"></textarea>
+            <textarea name="message" maxlength="2000" rows="3"></textarea>
           </label>
           <button class="btn btn-primary" type="submit">Request a Quote</button>
-          <p class="form-status" hidden></p>
+          <p class="form-status" role="status" aria-live="polite" hidden></p>
         </form>
       </section>
     </main>
@@ -442,6 +442,7 @@ I highly recommend Alpine Shine, and Renata in particular is absolutely wonderfu
       </aside>
     </div>
 
-    <script src="js/main.js?v=66"></script>
+    <script src="js/config.js"></script>
+    <script src="js/main.js?v=72"></script>
   </body>
 </html>
