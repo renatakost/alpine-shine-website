@@ -1,2 +1,102 @@
 <!doctype html>
-<html lang="en-NZ"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="robots" content="noindex,nofollow"><meta name="referrer" content="no-referrer"><meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://www.gstatic.com; connect-src 'self' https://identitytoolkit.googleapis.com https://securetoken.googleapis.com https://australia-southeast1-alpine-shine-website.cloudfunctions.net; style-src 'self'; img-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'"><title>Quotes | Alpine Shine</title><link rel="stylesheet" href="css/admin.css"></head><body><main><header><h1>Request a Quote</h1><button id="logout" type="button">Log out</button></header><p id="admin-status" role="status" aria-live="polite">Checking access…</p><section id="admin-content" hidden><button id="refresh" type="button">Refresh quotes</button><div class="table-wrap"><table><caption>Quote submissions</caption><thead><tr><th>Date</th><th>Full name</th><th>Email</th><th>Phone</th><th>Service</th><th>Status</th></tr></thead><tbody id="quotes-body"></tbody></table></div><button id="load-more" type="button" hidden>Load more</button><section id="quote-details" tabindex="-1" aria-label="Quote details"></section></section><noscript>JavaScript is required to sign in securely.</noscript></main><script type="module" src="js/admin.js"></script></body></html>
+<html lang="en-NZ">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="robots" content="noindex,nofollow">
+  <meta name="referrer" content="no-referrer">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://www.gstatic.com; connect-src 'self' https://identitytoolkit.googleapis.com https://securetoken.googleapis.com https://australia-southeast1-alpine-shine-website.cloudfunctions.net; style-src 'self'; img-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'">
+  <title>Admin | Alpine Shine</title>
+  <link rel="stylesheet" href="css/admin.css">
+</head>
+<body>
+  <main>
+    <header>
+      <h1>Alpine Shine admin</h1>
+      <button id="logout" type="button">Log out</button>
+    </header>
+    <p id="admin-status" role="status" aria-live="polite">Checking access…</p>
+    <section id="admin-content" hidden>
+      <nav class="admin-nav" aria-label="Admin sections">
+        <button type="button" data-tab="quotes" aria-current="page">Quotes</button>
+        <button type="button" data-tab="registrations">Registrations</button>
+        <button type="button" data-tab="applications">Applications</button>
+      </nav>
+
+      <section class="admin-panel" data-panel="quotes">
+        <h2>Quotes</h2>
+        <button id="refresh" type="button">Refresh quotes</button>
+        <div class="table-wrap">
+          <table>
+            <caption>Quote submissions</caption>
+            <thead>
+              <tr>
+                <th>Date</th>
+                <th>Full name</th>
+                <th>Email</th>
+                <th>Phone</th>
+                <th>Service</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody id="quotes-body"></tbody>
+          </table>
+        </div>
+        <button id="load-more" type="button" hidden>Load more</button>
+        <section id="quote-details" data-details="quotes" tabindex="-1" aria-label="Quote details"></section>
+      </section>
+
+      <section class="admin-panel" data-panel="registrations" hidden>
+        <h2>Registrations</h2>
+        <button id="refresh-registrations" type="button">Refresh registrations</button>
+        <div class="table-wrap">
+          <table>
+            <caption>Client registrations</caption>
+            <thead>
+              <tr>
+                <th>Date</th>
+                <th>Client name</th>
+                <th>Email</th>
+                <th>Phone</th>
+                <th>Property address</th>
+                <th>Service required</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody id="registrations-body"></tbody>
+          </table>
+        </div>
+        <button id="load-more-registrations" type="button" hidden>Load more</button>
+        <section id="registration-details" data-details="registrations" tabindex="-1" aria-label="Registration details"></section>
+      </section>
+
+      <section class="admin-panel" data-panel="applications" hidden>
+        <h2>Applications</h2>
+        <button id="refresh-applications" type="button">Refresh applications</button>
+        <div class="table-wrap">
+          <table>
+            <caption>Work With Us applications</caption>
+            <thead>
+              <tr>
+                <th>Date</th>
+                <th>Applicant name</th>
+                <th>Email</th>
+                <th>Phone</th>
+                <th>Work type</th>
+                <th>Availability summary</th>
+                <th>CV</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody id="applications-body"></tbody>
+          </table>
+        </div>
+        <button id="load-more-applications" type="button" hidden>Load more</button>
+        <section id="application-details" data-details="applications" tabindex="-1" aria-label="Application details"></section>
+      </section>
+    </section>
+    <noscript>JavaScript is required to sign in securely.</noscript>
+  </main>
+  <script type="module" src="js/admin.js"></script>
+</body>
+</html>
