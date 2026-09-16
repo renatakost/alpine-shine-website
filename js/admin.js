@@ -99,6 +99,17 @@ async function api(name, query = '') {
   return body;
 }
 
+async function apiPost(name, payload) {
+  if (!auth.currentUser) throw Object.assign(new Error(), { status: 401 });
+  const url = endpointFor(name);
+  if (!url) throw Object.assign(new Error(), { status: 503 });
+  const token = await auth.currentUser.getIdToken();
+  const response = await fetch(url, { method: 'POST', headers: { Authorization: 'Bearer ' + token, 'Content-Type': 'application/json' }, body: JSON.stringify(payload), cache: 'no-store', credentials: 'omit' });
+  const body = await response.json().catch(() => null);
+  if (response.status !== 200 || body?.ok !== true) throw Object.assign(new Error(), { status: response.status });
+  return body;
+}
+
 async function failure(error, tab = currentTab) {
   if ([401, 403].includes(error.status)) { clearPrivate(); await signOut(auth); loginPage(); }
   else message(error.status === 429 ? 'Please wait a moment and try again.' : (errorMessages[tab] || 'Unable to load this section. Please try again.'));
@@ -169,6 +180,7 @@ async function details(tab, id) {
         ['Status', text(quote.status)],
         ['Created at', date(quote.createdAt)],
       ]);
+      addQuoteStatusForm(box, quote);
     } else if (tab === 'registrations') {
       const item = data.registration, form = item.formData || {}, rows = [
         ['Status', text(item.status)],
@@ -196,6 +208,58 @@ async function details(tab, id) {
     }
     message('');
   } catch (e) { if (current === generation) await failure(e, tab); }
+}
+
+const QUOTE_STATUSES = [['new', 'New'], ['contacted', 'Contacted'], ['quoted', 'Quoted'], ['converted', 'Converted']];
+
+function addQuoteStatusForm(box, quote) {
+  const form = document.createElement('form');
+  form.className = 'quote-status';
+  form.addEventListener('submit', event => event.preventDefault());
+  const label = document.createElement('label');
+  const caption = document.createElement('span');
+  caption.textContent = 'Update status';
+  const select = document.createElement('select');
+  select.id = 'quote-status';
+  select.setAttribute('aria-label', 'Quote status');
+  for (const [value, name] of QUOTE_STATUSES) {
+    const option = document.createElement('option');
+    option.value = value;
+    option.textContent = name;
+    select.append(option);
+  }
+  if (QUOTE_STATUSES.some(([value]) => value === quote.status)) select.value = quote.status;
+  select.dataset.current = quote.status || '';
+  label.append(caption, select);
+  const button = document.createElement('button');
+  button.type = 'button';
+  button.id = 'quote-status-save';
+  button.textContent = 'Save';
+  button.addEventListener('click', () => saveQuoteStatus(quote.id, select, button));
+  form.append(label, button);
+  box.append(form);
+}
+
+async function saveQuoteStatus(id, select, button) {
+  const previous = select.dataset.current || select.value;
+  const current = generation;
+  button.disabled = true;
+  message('Updating quote status…');
+  try {
+    await apiPost('updateQuoteStatus', { id, status: select.value });
+    if (current !== generation || !auth.currentUser) return;
+    nextCursor.quotes = null;
+    await list(false, 'quotes');
+    if (current !== generation || !auth.currentUser) return;
+    await details('quotes', id);
+    if (current === generation) message('Quote status updated.');
+  } catch (e) {
+    select.value = QUOTE_STATUSES.some(([value]) => value === previous) ? previous : select.value;
+    if (current === generation) {
+      if ([401, 403].includes(e.status)) await failure(e, 'quotes');
+      else message(e.status === 429 ? 'Please wait a moment and try again.' : 'Unable to update quote status. Please try again.');
+    }
+  } finally { button.disabled = false; }
 }
 
 function appendRow(tab, item) {

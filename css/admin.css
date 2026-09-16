@@ -28,6 +28,10 @@ dt{font-weight:600}
 dt.sensitive{color:#7a1f1f}
 dd{margin:0;white-space:pre-wrap;overflow-wrap:anywhere}
 #load-more,#load-more-registrations,#load-more-applications{margin-top:1rem}
+.quote-status{margin-top:1.5rem;display:flex;flex-wrap:wrap;gap:.75rem;align-items:end}
+.quote-status label{margin:0}
+.quote-status select{display:block;min-width:12rem;padding:.6rem;margin-top:.4rem;border:1px solid #718096;border-radius:5px;font:inherit;background:#fff}
+select:focus-visible{outline:3px solid #4786c1;outline-offset:3px}
 @media(max-width:600px){
   main{margin:1rem auto;padding:1rem}
   dl{grid-template-columns:1fr}
