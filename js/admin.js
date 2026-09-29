@@ -191,6 +191,7 @@ async function details(tab, id) {
         rows.push([REGISTRATION_LABELS[key], text(form[key]), key === 'lockbox-code']);
       }
       renderRows(box, 'Registration details', rows);
+      addRegistrationStatusForm(box, item);
     } else {
       const item = data.application, form = item.formData || {}, rows = [
         ['Status', text(item.status)],
@@ -258,6 +259,58 @@ async function saveQuoteStatus(id, select, button) {
     if (current === generation) {
       if ([401, 403].includes(e.status)) await failure(e, 'quotes');
       else message(e.status === 429 ? 'Please wait a moment and try again.' : 'Unable to update quote status. Please try again.');
+    }
+  } finally { button.disabled = false; }
+}
+
+const REGISTRATION_STATUSES = [['new', 'New'], ['contacted', 'Contacted'], ['scheduled', 'Scheduled'], ['active', 'Active'], ['closed', 'Closed']];
+
+function addRegistrationStatusForm(box, item) {
+  const form = document.createElement('form');
+  form.className = 'registration-status';
+  form.addEventListener('submit', event => event.preventDefault());
+  const label = document.createElement('label');
+  const caption = document.createElement('span');
+  caption.textContent = 'Update status';
+  const select = document.createElement('select');
+  select.id = 'registration-status';
+  select.setAttribute('aria-label', 'Registration status');
+  for (const [value, name] of REGISTRATION_STATUSES) {
+    const option = document.createElement('option');
+    option.value = value;
+    option.textContent = name;
+    select.append(option);
+  }
+  if (REGISTRATION_STATUSES.some(([value]) => value === item.status)) select.value = item.status;
+  select.dataset.current = item.status || '';
+  label.append(caption, select);
+  const button = document.createElement('button');
+  button.type = 'button';
+  button.id = 'registration-status-save';
+  button.textContent = 'Save';
+  button.addEventListener('click', () => saveRegistrationStatus(item.id, select, button));
+  form.append(label, button);
+  box.append(form);
+}
+
+async function saveRegistrationStatus(id, select, button) {
+  const previous = select.dataset.current || select.value;
+  const current = generation;
+  button.disabled = true;
+  message('Updating registration status…');
+  try {
+    await apiPost('updateRegistrationStatus', { id, status: select.value });
+    if (current !== generation || !auth.currentUser) return;
+    nextCursor.registrations = null;
+    await list(false, 'registrations');
+    if (current !== generation || !auth.currentUser) return;
+    await details('registrations', id);
+    if (current === generation) message('Registration status updated.');
+  } catch (e) {
+    select.value = REGISTRATION_STATUSES.some(([value]) => value === previous) ? previous : select.value;
+    if (current === generation) {
+      if ([401, 403].includes(e.status)) await failure(e, 'registrations');
+      else message(e.status === 429 ? 'Please wait a moment and try again.' : 'Unable to update registration status. Please try again.');
     }
   } finally { button.disabled = false; }
 }
