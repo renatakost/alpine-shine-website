@@ -206,6 +206,7 @@ async function details(tab, id) {
       }
       for (const key of Object.keys(form)) rows.push([fieldLabel(key, {}), text(form[key])]);
       renderRows(box, 'Application details', rows);
+      addApplicationStatusForm(box, item);
     }
     message('');
   } catch (e) { if (current === generation) await failure(e, tab); }
@@ -311,6 +312,58 @@ async function saveRegistrationStatus(id, select, button) {
     if (current === generation) {
       if ([401, 403].includes(e.status)) await failure(e, 'registrations');
       else message(e.status === 429 ? 'Please wait a moment and try again.' : 'Unable to update registration status. Please try again.');
+    }
+  } finally { button.disabled = false; }
+}
+
+const APPLICATION_STATUSES = [['new', 'New'], ['reviewing', 'Reviewing'], ['contacted', 'Contacted'], ['rejected', 'Rejected'], ['hired', 'Hired']];
+
+function addApplicationStatusForm(box, item) {
+  const form = document.createElement('form');
+  form.className = 'application-status';
+  form.addEventListener('submit', event => event.preventDefault());
+  const label = document.createElement('label');
+  const caption = document.createElement('span');
+  caption.textContent = 'Update status';
+  const select = document.createElement('select');
+  select.id = 'application-status';
+  select.setAttribute('aria-label', 'Application status');
+  for (const [value, name] of APPLICATION_STATUSES) {
+    const option = document.createElement('option');
+    option.value = value;
+    option.textContent = name;
+    select.append(option);
+  }
+  if (APPLICATION_STATUSES.some(([value]) => value === item.status)) select.value = item.status;
+  select.dataset.current = item.status || '';
+  label.append(caption, select);
+  const button = document.createElement('button');
+  button.type = 'button';
+  button.id = 'application-status-save';
+  button.textContent = 'Save';
+  button.addEventListener('click', () => saveApplicationStatus(item.id, select, button));
+  form.append(label, button);
+  box.append(form);
+}
+
+async function saveApplicationStatus(id, select, button) {
+  const previous = select.dataset.current || select.value;
+  const current = generation;
+  button.disabled = true;
+  message('Updating application status…');
+  try {
+    await apiPost('updateApplicationStatus', { id, status: select.value });
+    if (current !== generation || !auth.currentUser) return;
+    nextCursor.applications = null;
+    await list(false, 'applications');
+    if (current !== generation || !auth.currentUser) return;
+    await details('applications', id);
+    if (current === generation) message('Application status updated.');
+  } catch (e) {
+    select.value = APPLICATION_STATUSES.some(([value]) => value === previous) ? previous : select.value;
+    if (current === generation) {
+      if ([401, 403].includes(e.status)) await failure(e, 'applications');
+      else message(e.status === 429 ? 'Please wait a moment and try again.' : 'Unable to update application status. Please try again.');
     }
   } finally { button.disabled = false; }
 }

@@ -13,6 +13,7 @@ export const adminConfig = Object.freeze({
     "registrations": "https://australia-southeast1-alpine-shine-website.cloudfunctions.net/adminRegistrations",
     "applications": "https://australia-southeast1-alpine-shine-website.cloudfunctions.net/adminApplications",
     "updateQuoteStatus": "https://australia-southeast1-alpine-shine-website.cloudfunctions.net/adminUpdateQuoteStatus",
-    "updateRegistrationStatus": "https://australia-southeast1-alpine-shine-website.cloudfunctions.net/adminUpdateRegistrationStatus"
+    "updateRegistrationStatus": "https://australia-southeast1-alpine-shine-website.cloudfunctions.net/adminUpdateRegistrationStatus",
+    "updateApplicationStatus": "https://australia-southeast1-alpine-shine-website.cloudfunctions.net/adminUpdateApplicationStatus"
   }
 });
