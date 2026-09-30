@@ -884,11 +884,11 @@ a {
 .about-media {
   min-height: 0;
   width: 100%;
-  max-width: 18.2rem;
+  max-width: 18.45rem;
   justify-self: start;
   padding: 0.28rem;
   background: var(--white);
-  border: 1px solid var(--navy);
+  border: 3px solid var(--navy);
 }
 
 .about-media img {
@@ -1810,7 +1810,7 @@ a {
   }
 
   .about-media {
-    max-width: 22rem;
+    max-width: 22.25rem;
     justify-self: start;
   }
 
