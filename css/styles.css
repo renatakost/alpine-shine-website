@@ -145,7 +145,7 @@ a {
 
 .logo img {
   display: block;
-  width: 165px;
+  width: 206px;
   height: auto;
   object-fit: contain;
   background: none;
@@ -181,7 +181,7 @@ a {
 }
 
 .home-header .logo img {
-  width: 158px;
+  width: 196px;
 }
 
 .home-header .site-nav ul {
@@ -516,7 +516,7 @@ a {
 
 .about {
   grid-template-columns: minmax(0, 1.28fr) minmax(0, 0.72fr);
-  gap: 3rem;
+  gap: 1.25rem;
 }
 
 .about-copy h2 {
@@ -884,8 +884,11 @@ a {
 .about-media {
   min-height: 0;
   width: 100%;
-  max-width: 17.5rem;
-  justify-self: end;
+  max-width: 18.2rem;
+  justify-self: start;
+  padding: 0.28rem;
+  background: var(--white);
+  border: 1px solid var(--navy);
 }
 
 .about-media img {
@@ -1719,7 +1722,7 @@ a {
   }
 
   .home-header .logo img {
-    width: 140px;
+    width: 174px;
   }
 
   .header-whatsapp,
@@ -1742,12 +1745,12 @@ a {
   }
 
   .logo img {
-    width: 122px;
+    width: 140px;
     height: auto;
   }
 
   .home-header .logo img {
-    width: 122px;
+    width: 140px;
   }
 
   .footer-logo {
@@ -1807,8 +1810,12 @@ a {
   }
 
   .about-media {
-    max-width: none;
-    justify-self: stretch;
+    max-width: 22rem;
+    justify-self: start;
+  }
+
+  .about {
+    gap: 1.35rem;
   }
 
   .about,
