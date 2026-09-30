@@ -146,12 +146,25 @@ document.querySelectorAll("[data-reviews-carousel]").forEach((root) => {
     }
   }
 
+  function alignSlide(behavior) {
+    const slide = slides[index];
+    if (!slide) {
+      return;
+    }
+    const left = slide.offsetLeft;
+    if (behavior === "smooth" && typeof viewport.scrollTo === "function") {
+      viewport.scrollTo({ left, behavior: "smooth" });
+    } else {
+      viewport.scrollLeft = left;
+    }
+  }
+
   function goTo(next, userInitiated) {
     index = Math.max(0, Math.min(maxIndex(), next));
     if (desktopQuery.matches) {
       applyDesktopTransform();
     } else if (userInitiated) {
-      slides[index].scrollIntoView({ behavior: "smooth", inline: "start", block: "nearest" });
+      alignSlide("smooth");
     }
     syncDots();
   }
@@ -219,7 +232,7 @@ document.querySelectorAll("[data-reviews-carousel]").forEach((root) => {
       applyDesktopTransform();
     } else {
       track.style.transform = "none";
-      slides[index].scrollIntoView({ behavior: "auto", inline: "start", block: "nearest" });
+      alignSlide("auto");
     }
     syncDots();
     syncReviewToggles();
