@@ -432,15 +432,24 @@ a {
   z-index: 1;
 }
 
+#services .section-heading h1,
 #services .section-heading h2 {
   font-size: clamp(1.85rem, 3.2vw, 2.4rem);
 }
 
+#services .section-heading h1 span,
 #services .section-heading h2 span {
   display: inline-block;
   line-height: 1.1;
   padding: 0.02em 0.22em;
   background: rgba(255, 255, 255, 0.55);
+}
+
+.services-intro {
+  max-width: 38rem;
+  margin: -0.4rem auto 2.2rem;
+  text-align: center;
+  color: var(--muted);
 }
 
 #services .service-card {
@@ -453,6 +462,7 @@ a {
   max-width: none;
 }
 
+#services .service-card h2,
 #services .service-card h3 {
   font-size: 1.05rem;
   line-height: 1.28;
@@ -492,6 +502,7 @@ a {
   margin-bottom: 2.4rem;
 }
 
+.section-heading h1::after,
 .section-heading h2::after,
 .contact-intro h2::after {
   content: "";

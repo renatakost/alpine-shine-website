@@ -3,11 +3,10 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Gallery | Alpine Shine</title>
-    <meta name="robots" content="noindex, follow" />
+    <title>Our Services in Wānaka | Alpine Shine</title>
     <meta
       name="description"
-      content="A look at Alpine Shine’s cleaning and property care work in Wānaka, organised by service."
+      content="Airbnb cleaning, booking management, residential, move in and move out, and new build cleaning in Wānaka from Alpine Shine."
     />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -37,7 +36,7 @@
         <nav id="site-nav" class="site-nav" aria-label="Primary">
           <ul>
             <li><a href="index.html">Home</a></li>
-            <li><a href="services.html">Services</a></li>
+            <li><a href="services.html" aria-current="page">Services</a></li>
             <li><a href="about.html">About</a></li>
             <li><a href="index.html#quote">Contact</a></li>
             <li><a href="work-with-us.html">Work With Us</a></li>
@@ -79,73 +78,71 @@
     </header>
 
     <main id="main">
-      <article class="gallery-page portfolio-page">
-        <h1 id="gallery-heading">Gallery</h1>
-        <div class="gallery-intro portfolio-intro">
-          <p>A look at some of the properties we've cleaned and cared for around Wānaka.</p>
-          <p>
-            Photos are grouped by service so you can see the kind of work we do, without scrolling through one long mix of images.
-          </p>
+      <section id="services" class="section section-alt" aria-labelledby="services-heading">
+        <div class="section-heading">
+          <h1 id="services-heading"><span>Our Services</span></h1>
         </div>
-
-        <!--
-          How to add a photo later:
-          Copy a <li class="work-photo"> block into the matching category <ul class="gallery-grid">.
-          Use images/... as the src and a short, factual alt description.
-        -->
-
-        <section class="gallery-category" aria-labelledby="gallery-airbnb-heading">
-          <h2 id="gallery-airbnb-heading">Airbnb Turnovers</h2>
-          <ul class="work-grid gallery-grid">
-            <!-- Add photos here -->
-          </ul>
-        </section>
-
-        <section class="gallery-category" aria-labelledby="gallery-deep-heading">
-          <h2 id="gallery-deep-heading">Deep Cleaning</h2>
-          <ul class="work-grid gallery-grid">
-            <!-- Add photos here -->
-          </ul>
-        </section>
-
-        <section class="gallery-category" aria-labelledby="gallery-residential-heading">
-          <h2 id="gallery-residential-heading">Residential Cleaning</h2>
-          <ul class="work-grid gallery-grid">
-            <!-- Add photos here -->
-          </ul>
-        </section>
-
-        <section class="gallery-category" aria-labelledby="gallery-tenancy-heading">
-          <h2 id="gallery-tenancy-heading">End of Tenancy / New Build</h2>
-          <ul class="work-grid gallery-grid">
-            <li class="work-photo work-photo--bathroom">
+        <p class="services-intro">
+          Alpine Shine provides reliable cleaning and property care in Wānaka, with a personal, detail-focused approach. Choose a service below to learn more.
+        </p>
+        <ul class="service-grid">
+          <li class="service-card">
+            <div class="service-photo">
               <img
-                src="images/our-work-bathroom.jpg"
-                alt="A clean bathroom prepared by Alpine Shine"
+                src="images/service-airbnb-turnovers.png"
+                alt="A guest-ready bedroom with fresh linen and folded towels"
               />
-            </li>
-            <li class="work-photo work-photo--kitchen">
+            </div>
+            <h2>Airbnb Turnovers</h2>
+            <p>Cleans between guest stays.</p>
+            <a class="learn-more" href="airbnb-cleaning-wanaka.html">Learn more →</a>
+          </li>
+          <li class="service-card">
+            <div class="service-photo">
               <img
-                src="images/our-work-kitchen.jpg"
-                alt="A clean kitchen prepared by Alpine Shine"
+                src="images/service-boutique-airbnb.png"
+                alt="A holiday home living room with a Wānaka welcome stay guide"
               />
-            </li>
-            <li class="work-photo work-photo--island">
+            </div>
+            <h2>Airbnb Booking Management</h2>
+            <p>Care for a small number of holiday homes.</p>
+            <a class="learn-more" href="boutique-airbnb-management.html">Learn more →</a>
+          </li>
+          <li class="service-card">
+            <div class="service-photo">
               <img
-                src="images/our-work-kitchen-island.jpg"
-                alt="A clean kitchen island prepared by Alpine Shine"
+                src="images/service-residential-cleaning.png"
+                alt="A clean premium kitchen and living area"
               />
-            </li>
-          </ul>
-        </section>
-
-        <section class="gallery-category" aria-labelledby="gallery-before-after-heading">
-          <h2 id="gallery-before-after-heading">Before &amp; After</h2>
-          <ul class="work-grid gallery-grid">
-            <!-- Add photos here as consecutive before/after images -->
-          </ul>
-        </section>
-      </article>
+            </div>
+            <h2>Residential Cleaning</h2>
+            <p>Regular or one-off cleans for homes.</p>
+            <a class="learn-more" href="residential-cleaning.html">Learn more →</a>
+          </li>
+          <li class="service-card">
+            <div class="service-photo">
+              <img
+                src="images/service-end-of-tenancy.png"
+                alt="A clean empty home ready at the end of a tenancy"
+              />
+            </div>
+            <h2>Move In &amp; Move Out Cleaning</h2>
+            <p>Cleans for moving in, moving out or the end of a tenancy.</p>
+            <a class="learn-more" href="end-of-tenancy.html">Learn more →</a>
+          </li>
+          <li class="service-card">
+            <div class="service-photo">
+              <img
+                src="images/service-new-build.png"
+                alt="A newly completed property prepared for builder handover"
+              />
+            </div>
+            <h2>New Build Cleaning</h2>
+            <p>A clean ready for handover on a new build.</p>
+            <a class="learn-more" href="new-build-cleaning.html">Learn more →</a>
+          </li>
+        </ul>
+      </section>
     </main>
 
     <footer class="site-footer">
