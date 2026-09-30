@@ -206,11 +206,42 @@
           </fieldset>
 
           <fieldset>
-            <legend>Billing Details</legend>
+            <legend>Invoice Details</legend>
             <label>
-              Billing / Invoice Details
-              <span class="field-hint">Who should we address invoices to?</span>
-              <textarea name="billing-details" rows="4" required></textarea>
+              Are the invoice details the same as the contact details above?
+              <select name="invoice-same-as-contact" required>
+                <option value="">Please select</option>
+                <option value="yes">Yes</option>
+                <option value="no">No</option>
+              </select>
+            </label>
+            <div class="conditional-fields" data-when-name="invoice-same-as-contact" data-when-value="no" hidden>
+              <label>
+                Invoice name
+                <input type="text" name="invoice-name" autocomplete="name" required />
+              </label>
+              <label>
+                Invoice email
+                <input type="email" name="invoice-email" autocomplete="email" required />
+              </label>
+              <label>
+                Invoice phone
+                <input type="tel" name="invoice-phone" autocomplete="tel" required />
+              </label>
+              <label>
+                Invoice address
+                <textarea name="invoice-address" rows="3" required></textarea>
+              </label>
+              <label>
+                Company name
+                <span class="field-hint">Optional</span>
+                <input type="text" name="invoice-company" autocomplete="organization" />
+              </label>
+            </div>
+            <label>
+              Invoice notes
+              <span class="field-hint">Optional. Anything else we should know about invoicing.</span>
+              <textarea name="billing-details" rows="3"></textarea>
             </label>
           </fieldset>
 

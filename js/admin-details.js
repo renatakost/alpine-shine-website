@@ -16,7 +16,13 @@ export const REGISTRATION_LABELS = Object.freeze({
   'property-access': 'Property access',
   'parking-instructions': 'Parking instructions',
   'lockbox-code': 'Lockbox code',
-  'billing-details': 'Billing details',
+  'invoice-same-as-contact': 'Invoice same as contact',
+  'invoice-name': 'Invoice name',
+  'invoice-email': 'Invoice email',
+  'invoice-phone': 'Invoice phone',
+  'invoice-address': 'Invoice address',
+  'invoice-company': 'Invoice company',
+  'billing-details': 'Invoice notes',
   'property-notes': 'Property notes',
   'referral-source': 'Referral source',
   'referral-name': 'Referral name',
@@ -31,7 +37,7 @@ export const REGISTRATION_SECTION_KEYS = Object.freeze([
   ['Property Details', ['property-address', 'property-type', 'property-type-details', 'bedrooms', 'bathrooms', 'property-notes']],
   ['Cleaning & Linen', ['service-required', 'service-details', 'linen-hire', 'cleaning-frequency', 'frequency-details']],
   ['Property Access', ['property-access', 'parking-instructions', 'lockbox-code']],
-  ['Invoice / Billing Details', ['billing-details']],
+  ['Invoice Details', ['invoice-same-as-contact', 'invoice-name', 'invoice-email', 'invoice-phone', 'invoice-address', 'invoice-company', 'billing-details']],
   ['Referral', ['referral-source', 'referral-name', 'referral-agency-name', 'referral-source-details']],
   ['Permissions / Consent', ['marketing-consent', 'photo-permission']],
 ]);
@@ -57,7 +63,7 @@ const APPLICATION_SECTION_KEYS = Object.freeze([
 
 const REGISTRATION_WIDE = new Set([
   'property-type-details', 'service-details', 'frequency-details', 'property-access',
-  'parking-instructions', 'lockbox-code', 'billing-details', 'property-notes', 'referral-source-details',
+  'parking-instructions', 'lockbox-code', 'invoice-address', 'billing-details', 'property-notes', 'referral-source-details',
 ]);
 const APPLICATION_WIDE = new Set([
   'visa-restrictions', 'planned-unavailability-details', 'stay-in-wanaka', 'experience-details',
@@ -144,7 +150,9 @@ export function registrationDetailSections(item, format) {
       used.add(key);
       return {
         label: REGISTRATION_LABELS[key],
-        value: format.text(form[key]),
+        value: key === 'invoice-same-as-contact'
+          ? (form[key] === 'yes' ? 'Same as contact details' : form[key] === 'no' ? 'No' : format.text(form[key]))
+          : format.text(form[key]),
         sensitive: key === 'lockbox-code',
         wide: REGISTRATION_WIDE.has(key),
       };
