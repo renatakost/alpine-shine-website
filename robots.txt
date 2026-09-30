@@ -4,6 +4,8 @@ Allow: /
 Disallow: /admin.html
 Disallow: /admin-login.html
 Disallow: /new-client-registration.html
+Disallow: /register
+Disallow: /register.html
 Disallow: /work-with-us-application.html
 
 Sitemap: https://alpineshine.nz/sitemap.xml
