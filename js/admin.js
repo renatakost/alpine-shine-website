@@ -1,6 +1,13 @@
 import { initializeApp } from 'https://www.gstatic.com/firebasejs/12.19.0/firebase-app.js';
 import { getAuth, setPersistence, browserSessionPersistence, signInWithEmailAndPassword, onAuthStateChanged, signOut, connectAuthEmulator } from 'https://www.gstatic.com/firebasejs/12.19.0/firebase-auth.js';
 import { adminConfig } from './admin-config.js';
+import {
+  applicationDetailSections,
+  quoteDetailSections,
+  registrationDetailSections,
+  renderDetailHeading,
+  renderDetailSections,
+} from './admin-details.js';
 
 const TABS = ['quotes', 'registrations', 'applications'];
 const login = document.querySelector('#admin-login-form'), panel = document.querySelector('#admin-content');
@@ -34,32 +41,6 @@ const errorMessages = {
   quotes: 'Unable to load quotes. Please try again.',
   registrations: 'Unable to load registrations. Please try again.',
   applications: 'Unable to load applications. Please try again.',
-};
-const REGISTRATION_LABELS = {
-  'full-name': 'Full name',
-  email: 'Email',
-  phone: 'Phone',
-  'property-address': 'Property address',
-  'property-type': 'Property type',
-  'property-type-details': 'Property type details',
-  bedrooms: 'Bedrooms',
-  bathrooms: 'Bathrooms',
-  'service-required': 'Service required',
-  'service-details': 'Service details',
-  'linen-hire': 'Linen hire',
-  'cleaning-frequency': 'Cleaning frequency',
-  'frequency-details': 'Frequency details',
-  'property-access': 'Property access',
-  'parking-instructions': 'Parking instructions',
-  'lockbox-code': 'Lockbox code',
-  'billing-details': 'Billing details',
-  'property-notes': 'Property notes',
-  'referral-source': 'Referral source',
-  'referral-name': 'Referral name',
-  'referral-agency-name': 'Referral agency name',
-  'referral-source-details': 'Referral source details',
-  'marketing-consent': 'Marketing consent',
-  'photo-permission': 'Photo permission',
 };
 let auth, currentTab = 'quotes', generation = 0;
 const nextCursor = { quotes: null, registrations: null, applications: null };
@@ -123,25 +104,11 @@ function fileSize(bytes) {
   if (bytes < 1024 * 1024) return Math.round(bytes / 1024) + ' KB';
   return (bytes / (1024 * 1024)).toFixed(1) + ' MB';
 }
-function fieldLabel(key, labels) {
-  if (labels[key]) return labels[key];
-  return key.replace(/^avail-/, '').replace(/-/g, ' ').replace(/\b\w/g, c => c.toUpperCase());
-}
+const detailFormat = { text, date, fileSize };
 
-function renderRows(box, title, rows) {
+function startDetail(box, title) {
   box.replaceChildren();
-  const heading = document.createElement('h3');
-  heading.textContent = title;
-  const dl = document.createElement('dl');
-  for (const [label, value, sensitive] of rows) {
-    const dt = document.createElement('dt'), dd = document.createElement('dd');
-    dt.textContent = label;
-    if (sensitive) dt.className = 'sensitive';
-    dd.textContent = value;
-    dl.append(dt, dd);
-  }
-  box.append(heading, dl);
-  box.focus();
+  renderDetailHeading(box, title);
 }
 
 function setTab(name) {
@@ -170,44 +137,21 @@ async function details(tab, id) {
     const box = detailBoxes[tab];
     if (tab === 'quotes') {
       const quote = data.quote;
-      renderRows(box, 'Quote details', [
-        ['Full name', text(quote.fullName)],
-        ['Email', text(quote.email)],
-        ['Phone', text(quote.phone)],
-        ['Property address', text(quote.propertyAddress)],
-        ['Service', text(quote.service)],
-        ['Message', text(quote.message)],
-        ['Status', text(quote.status)],
-        ['Created at', date(quote.createdAt)],
-      ]);
+      startDetail(box, 'Quote details');
       addQuoteStatusForm(box, quote);
+      renderDetailSections(box, quoteDetailSections(quote, detailFormat));
     } else if (tab === 'registrations') {
-      const item = data.registration, form = item.formData || {}, rows = [
-        ['Status', text(item.status)],
-        ['Source', text(item.source)],
-        ['Created at', date(item.createdAt)],
-      ];
-      for (const key of Object.keys(REGISTRATION_LABELS)) {
-        rows.push([REGISTRATION_LABELS[key], text(form[key]), key === 'lockbox-code']);
-      }
-      renderRows(box, 'Registration details', rows);
+      const item = data.registration;
+      startDetail(box, 'Registration details');
       addRegistrationStatusForm(box, item);
+      renderDetailSections(box, registrationDetailSections(item, detailFormat));
     } else {
-      const item = data.application, form = item.formData || {}, rows = [
-        ['Status', text(item.status)],
-        ['Source', text(item.source)],
-        ['Created at', date(item.createdAt)],
-        ['CV uploaded', item.hasCv ? 'Yes' : 'No'],
-      ];
-      if (item.hasCv && item.cv && typeof item.cv === 'object') {
-        rows.push(['File type', text(item.cv.contentType)]);
-        rows.push(['Size', fileSize(item.cv.sizeBytes)]);
-        rows.push(['Scan status', text(item.cv.scanStatus)]);
-      }
-      for (const key of Object.keys(form)) rows.push([fieldLabel(key, {}), text(form[key])]);
-      renderRows(box, 'Application details', rows);
+      const item = data.application;
+      startDetail(box, 'Application details');
       addApplicationStatusForm(box, item);
+      renderDetailSections(box, applicationDetailSections(item, detailFormat));
     }
+    box.focus();
     message('');
   } catch (e) { if (current === generation) await failure(e, tab); }
 }
