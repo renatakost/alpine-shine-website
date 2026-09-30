@@ -95,7 +95,6 @@ document.querySelectorAll("[data-reviews-carousel]").forEach((root) => {
   const dotsWrap = root.querySelector(".reviews-dots");
   const viewport = root.querySelector(".reviews-viewport");
   const track = root.querySelector(".reviews-track");
-  const modal = document.querySelector("[data-review-modal]");
   if (!slides.length || !dotsWrap || !viewport || !track) {
     return;
   }
@@ -103,7 +102,6 @@ document.querySelectorAll("[data-reviews-carousel]").forEach((root) => {
   const desktopQuery = window.matchMedia("(min-width: 801px)");
   const pageSize = () => (desktopQuery.matches ? 3 : 1);
   let index = 0;
-  let lastFocus = null;
 
   slides.forEach((slide, i) => {
     slide.id = `review-slide-${i + 1}`;
@@ -193,6 +191,27 @@ document.querySelectorAll("[data-reviews-carousel]").forEach((root) => {
     }
   });
 
+  function syncReviewToggles() {
+    root.querySelectorAll(".review-card").forEach((card) => {
+      const quote = card.querySelector("blockquote");
+      const btn = card.querySelector(".review-more");
+      if (!quote || !btn) {
+        return;
+      }
+      if (card.classList.contains("is-expanded")) {
+        btn.hidden = false;
+        btn.textContent = "Read less";
+        btn.setAttribute("aria-expanded", "true");
+        return;
+      }
+      btn.hidden = false;
+      btn.textContent = "Read more";
+      btn.setAttribute("aria-expanded", "false");
+      const overflowing = quote.scrollHeight - quote.clientHeight > 2;
+      btn.hidden = !overflowing;
+    });
+  }
+
   function onModeChange() {
     index = Math.min(index, maxIndex());
     if (desktopQuery.matches) {
@@ -203,6 +222,7 @@ document.querySelectorAll("[data-reviews-carousel]").forEach((root) => {
       slides[index].scrollIntoView({ behavior: "auto", inline: "start", block: "nearest" });
     }
     syncDots();
+    syncReviewToggles();
   }
 
   desktopQuery.addEventListener("change", onModeChange);
@@ -210,63 +230,30 @@ document.querySelectorAll("[data-reviews-carousel]").forEach((root) => {
     if (desktopQuery.matches) {
       applyDesktopTransform();
     }
+    syncReviewToggles();
   });
 
-  function closeModal() {
-    if (!modal || !modal.classList.contains("is-open")) {
-      return;
-    }
-    modal.classList.remove("is-open");
-    modal.setAttribute("aria-hidden", "true");
-    document.body.classList.remove("review-modal-open");
-    if (lastFocus && typeof lastFocus.focus === "function") {
-      lastFocus.focus();
-    }
-  }
-
-  function openModal(card) {
-    if (!modal) {
-      return;
-    }
-    const name = modal.querySelector("#review-modal-name");
-    const quote = modal.querySelector(".review-modal-quote");
-    const source = card.querySelector("blockquote");
-    lastFocus = document.activeElement;
-    if (name) {
-      name.textContent = card.querySelector(".review-name")?.textContent || "";
-    }
-    if (quote && source) {
-      quote.innerHTML = source.innerHTML;
-    }
-    modal.setAttribute("aria-hidden", "false");
-    document.body.classList.add("review-modal-open");
-    modal.classList.add("is-open");
-    modal.querySelector(".review-modal-dialog")?.focus();
-  }
-
-  document.addEventListener("click", (event) => {
-    const closer = event.target.closest("[data-review-modal-close]");
-    if (closer && modal.contains(closer)) {
-      closeModal();
-      return;
-    }
+  root.addEventListener("click", (event) => {
     const btn = event.target.closest(".review-more");
     if (!btn || !root.contains(btn)) {
       return;
     }
     const card = btn.closest(".review-card");
-    if (card) {
-      openModal(card);
+    if (!card) {
+      return;
     }
-  });
-
-  document.addEventListener("keydown", (event) => {
-    if (event.key === "Escape") {
-      closeModal();
-    }
+    const expanded = card.classList.toggle("is-expanded");
+    btn.textContent = expanded ? "Read less" : "Read more";
+    btn.setAttribute("aria-expanded", String(expanded));
   });
 
   onModeChange();
+  const ready = document.fonts && document.fonts.ready;
+  if (ready && typeof ready.then === "function") {
+    ready.then(syncReviewToggles);
+  } else {
+    syncReviewToggles();
+  }
 });
 
 document.querySelectorAll(".multi-step-form").forEach(initMultiStepForm);
@@ -388,19 +375,7 @@ document.querySelectorAll(".quote-form, .registration-form").forEach((form) => {
     formStatus.hidden = false;
 
     if (form.classList.contains("application-form")) {
-      const cv = form.querySelector('input[name="cv"]');
-      const file = cv && cv.files && cv.files[0];
-      if (file) {
-        const validType = /\.(pdf|doc|docx)$/i.test(file.name);
-        const validSize = file.size <= 5 * 1024 * 1024;
-        if (!validType || !validSize) {
-          formStatus.textContent =
-            "Please upload a PDF, DOC or DOCX file of 5MB or less.";
-          return;
-        }
-      }
-      formStatus.textContent =
-        "This application form is not sending yet. We will connect it in a later step.";
+      sendApplicationRequest(form, formStatus);
       return;
     }
 
