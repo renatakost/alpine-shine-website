@@ -526,11 +526,17 @@ a {
 }
 
 .about {
-  grid-template-columns: minmax(0, 1fr) auto;
-  gap: 0.85rem;
-  max-width: 54rem;
+  grid-template-columns: minmax(0, 1.2fr) auto;
+  gap: 0.45rem;
+  max-width: 50rem;
   margin-left: auto;
   margin-right: auto;
+  align-items: start;
+}
+
+#about.section {
+  padding-top: 3.5rem;
+  padding-bottom: 3.5rem;
 }
 
 .about-copy h2 {
@@ -553,7 +559,7 @@ a {
 }
 
 .about-copy p {
-  max-width: 28rem;
+  max-width: none;
 }
 
 .about-page {
@@ -898,8 +904,9 @@ a {
 .about-media {
   min-height: 0;
   width: 100%;
-  max-width: 22.6rem;
-  justify-self: center;
+  max-width: 20.7rem;
+  justify-self: start;
+  align-self: start;
   padding: 0.28rem;
   background: var(--white);
   border: 1px solid rgba(27, 54, 93, 0.28);

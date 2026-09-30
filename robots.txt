@@ -1,0 +1,9 @@
+User-agent: *
+Allow: /
+
+Disallow: /admin.html
+Disallow: /admin-login.html
+Disallow: /new-client-registration.html
+Disallow: /work-with-us-application.html
+
+Sitemap: https://alpineshine.nz/sitemap.xml
