@@ -20,6 +20,9 @@ table{width:100%;border-collapse:collapse;min-width:640px}
 th,td{text-align:left;padding:.75rem;border-bottom:1px solid #ddd;vertical-align:top}
 th{white-space:nowrap}
 .quote-open,.registration-open,.application-open{background:none;border:0;color:#183b61;padding:0;text-decoration:underline;text-align:left}
+tr.unread{background:#e8f1fb}
+.unread-badge{display:inline-block;margin-left:.45rem;padding:.12rem .4rem;border-radius:3px;background:#183b61;color:#fff;font-size:.68rem;font-weight:700;letter-spacing:.04em;vertical-align:middle;text-decoration:none}
+.unread-name{font-weight:700}
 #admin-status{min-height:1.5rem}
 #quote-details,#registration-details,#application-details{margin-top:2rem;background:#fff;padding:1rem;min-width:0;overflow-x:hidden;border:1px solid #e3e7ec;border-radius:10px}
 #quote-details:empty,#registration-details:empty,#application-details:empty{display:none}

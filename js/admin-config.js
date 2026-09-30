@@ -14,6 +14,9 @@ export const adminConfig = Object.freeze({
     "applications": "https://australia-southeast1-alpine-shine-website.cloudfunctions.net/adminApplications",
     "updateQuoteStatus": "https://australia-southeast1-alpine-shine-website.cloudfunctions.net/adminUpdateQuoteStatus",
     "updateRegistrationStatus": "https://australia-southeast1-alpine-shine-website.cloudfunctions.net/adminUpdateRegistrationStatus",
-    "updateApplicationStatus": "https://australia-southeast1-alpine-shine-website.cloudfunctions.net/adminUpdateApplicationStatus"
+    "updateApplicationStatus": "https://australia-southeast1-alpine-shine-website.cloudfunctions.net/adminUpdateApplicationStatus",
+    "markQuoteRead": "https://australia-southeast1-alpine-shine-website.cloudfunctions.net/adminMarkQuoteRead",
+    "markRegistrationRead": "https://australia-southeast1-alpine-shine-website.cloudfunctions.net/adminMarkRegistrationRead",
+    "markApplicationRead": "https://australia-southeast1-alpine-shine-website.cloudfunctions.net/adminMarkApplicationRead"
   }
 });

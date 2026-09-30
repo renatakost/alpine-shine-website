@@ -153,7 +153,31 @@ async function details(tab, id) {
     }
     box.focus();
     message('');
+    await markOpenedRead(tab, id, tab === 'quotes' ? data.quote : tab === 'registrations' ? data.registration : data.application, current);
   } catch (e) { if (current === generation) await failure(e, tab); }
+}
+
+const MARK_READ = { quotes: 'markQuoteRead', registrations: 'markRegistrationRead', applications: 'markApplicationRead' };
+
+function markRowRead(tab, id) {
+  for (const row of bodies[tab]?.querySelectorAll('tr') || []) {
+    if (row.dataset.id !== id) continue;
+    row.classList.remove('unread');
+    row.querySelector('.unread-badge')?.remove();
+    row.querySelector('button')?.classList.remove('unread-name');
+  }
+}
+
+async function markOpenedRead(tab, id, item, current) {
+  if (item?.isRead !== false) return;
+  try {
+    await apiPost(MARK_READ[tab], { id });
+    if (current !== generation || !auth.currentUser) return;
+    markRowRead(tab, id);
+  } catch (e) {
+    if (current !== generation) return;
+    if ([401, 403].includes(e.status)) await failure(e, tab);
+  }
 }
 
 const QUOTE_STATUSES = [['new', 'New'], ['contacted', 'Contacted'], ['quoted', 'Quoted'], ['converted', 'Converted']];
@@ -314,6 +338,9 @@ async function saveApplicationStatus(id, select, button) {
 
 function appendRow(tab, item) {
   const tr = document.createElement('tr');
+  tr.dataset.id = item.id || '';
+  const unread = item.isRead === false;
+  if (unread) tr.classList.add('unread');
   let keys, openClass, nameKey;
   if (tab === 'quotes') { keys = ['createdAt', 'fullName', 'email', 'phone', 'service', 'status']; openClass = 'quote-open'; nameKey = 'fullName'; }
   else if (tab === 'registrations') { keys = ['createdAt', 'fullName', 'email', 'phone', 'propertyAddress', 'serviceRequired', 'status']; openClass = 'registration-open'; nameKey = 'fullName'; }
@@ -323,10 +350,16 @@ function appendRow(tab, item) {
     if (key === nameKey) {
       const button = document.createElement('button');
       button.type = 'button';
-      button.className = openClass;
+      button.className = unread ? openClass + ' unread-name' : openClass;
       button.textContent = item[nameKey] || (tab === 'quotes' ? 'Open quote' : tab === 'registrations' ? 'Open registration' : 'Open application');
       button.addEventListener('click', () => details(tab, item.id));
       td.append(button);
+      if (unread) {
+        const badge = document.createElement('span');
+        badge.className = 'unread-badge';
+        badge.textContent = 'NEW';
+        td.append(badge);
+      }
     } else if (key === 'hasCv') td.textContent = item.hasCv ? 'Yes' : 'No';
     else td.textContent = key === 'createdAt' ? date(item[key]) : (item[key] || '—');
     tr.append(td);
